@@ -13,10 +13,25 @@
 
 <html>
 <head>
+<title>상품상세조회</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+
+	$(function(){
+		
+		$($(".ct_btn01")[0]).on("click", function(){
+		
+		alert($($("td.ct_btn_btn01")).html());
+		self.location = "/product/listProduct?menu=${menu}"
+	});
+		
+	});
+	
+	</script>
+
 </head>
 
 <body bgcolor="#ffffff" text="#000000">

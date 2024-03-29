@@ -17,7 +17,33 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-</head>
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+
+	
+	$(function(){
+			
+			$($(".ct_btn01")[0]).on("click", function(){
+			
+			alert($($("td.ct_btn_btn01")[0]).html());
+			self.location = "/product/listProduct?menu=manage"
+		});
+	
+	$(function(){		
+	
+			$($(".ct_btn01")[1]).on("click", function(){
+			
+			alert($($("td.ct_btn_btn01")[1]).html());
+				
+				self.location = "/product/addProduct"
+				
+			});
+		
+		});
+	
+		</script>
+	
+	</head>
 
 <body bgcolor="#ffffff" text="#000000">
 
@@ -108,6 +134,7 @@
 				<tr>
 					<td height="26">
 						<img src="${product.fileName }"/>
+						<!-- ///" "를 붙인게 맞나..? -->
 					</td>
 				</tr>
 			</table>
@@ -137,7 +164,7 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="/product/addProduct.jsp;">추가등록</a>
+						<a href="/product/addProduct;">추가등록</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>

@@ -6,9 +6,10 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<script type="text/javascript">
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
 
-	function fncLogin() {
+	/* function fncLogin() {
 		var id=document.loginForm.userId.value;
 		var pw=document.loginForm.password.value;
 		if(id == null || id.length <1) {
@@ -23,12 +24,50 @@
 			return;
 		}
 	    document.loginForm.submit();
-	}
+	} */
 	
 	//Call Back Method 이용 onload 시 Event 처리
-	window.onload = function(){
+	/* window.onload = function(){
 		document.getElementById("userId").focus();
-	}
+	} */
+	
+	$( function() {
+		//==> 추가된부분 : "addUser"  Event 연결
+		
+		$("#userId").focus();
+		
+		/* $("img[src='/images/btn_add.gif']").on("click" , function() { */
+		$("img[src='/images/btn_login.gif']").on("click" , function() {
+			
+			var id = $("input:text").val(); 
+			var pw = $("input:password").val();
+			
+			if(id == null || id.length <1) {
+				alert('ID 를 입력하지 않으셨습니다.');
+				$("input:text").focus();
+				return;
+			}
+			
+			if(pw == null || pw.length <1) {
+				alert('패스워드를 입력하지 않으셨습니다.');
+				$("input:password").focus();
+				return;
+
+		}
+	
+		 	$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
+		
+		});
+		
+	});
+		
+	$(function(){
+		$("img[src='/images/btn_add.gif']").on("click" , function() {
+			self.location = "/user/addUser"
+		
+		});
+	
+	});
 
 </script>
 
@@ -36,7 +75,8 @@
 
 <body bgcolor="#ffffff" text="#000000" >
 
-<form name="loginForm"  method="post" action="/user/login" target="_parent">
+<!-- <form name="loginForm"  method="post" action="/user/login" target="_parent"> -->
+<form>
 
 <div align="center">
 
@@ -100,15 +140,17 @@
    				    <table width="136" height="20" border="0" cellpadding="0" cellspacing="0">
                        <tr> 
                          <td width="56">
-                         	<a href="javascript:fncLogin();">
+                         	<!-- <a href="javascript:fncLogin();">
                          		<img src="/images/btn_login.gif" width="56" height="20" border="0"/>
-                         	</a>
+                         	</a> -->
+                         	<img src="/images/btn_login.gif" width="56" height="20" border="0"/>
                          </td>
                          <td width="10">&nbsp;</td>
                          <td width="70">
-                         	<a href="/user/addUser.jsp;">
+                         	<!-- <a href="/user/addUser.jsp;">
                          		<img src="/images/btn_add.gif" width="70" height="20" border="0">
-                         	</a>
+                         	</a> -->
+                         		<img src="/images/btn_add.gif" width="70" height="20" border="0">
                          </td>
                        </tr>
                      </table>

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=EUC-KR"%>
+<%@ page pageEncoding="EUC-KR"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -8,6 +9,30 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+
+	//==> 추가된부분 : "수정" "확인"  Event 연결 및 처리
+	$(function(){
+		$("td.ct_btn01:contain('확인')").on("click", function(){
+			
+			alert($("td.ct_btn01:contains('확인')").html());
+			history.go(-1);
+		});
+		
+		$("td.ct_btn01:contain('수정')").on("click", function(){
+			
+			alert($("td.ct_btn01:contains('수정')").html());
+			
+			self.location = "/user/updateUser?userId=${user.userId}"
+		
+		});
+	
+	});
+	
+	
+	</script>
+	
 </head>
 
 <body bgcolor="#ffffff" text="#000000">

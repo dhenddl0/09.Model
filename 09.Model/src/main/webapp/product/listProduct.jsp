@@ -3,42 +3,71 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<% System.out.println("jsp start"); %>
-
-<%-- <%@ page import="java.util.*"  %>
-<%@ page import="com.model2.mvc.service.domain.Product" %>
-<%@ page import="com.model2.mvc.service.domain.User" %>
-<%@ page import="com.model2.mvc.common.*" %>
-
-<%@ page import="java.util.List"  %>
-
-<%@ page import="com.model2.mvc.service.domain.Product" %>
-<%@ page import="com.model2.mvc.common.Search" %>
-<%@page import="com.model2.mvc.common.Page"%>
-<%@page import="com.model2.mvc.common.util.CommonUtil"%>
-
-<%
-   List<Product> list = (List<Product>)request.getAttribute("list");
-   Page resultPage = (Page)request.getAttribute("resultPage");
-   
-   Search search = (Search)request.getAttribute("search");
-   System.out.println(search);
-   
-   String searchCondition = CommonUtil.null2str(search.getSearchCondition());
-   String searchKeyword = CommonUtil.null2str(search.getSearchKeyword());
-   
-   System.out.println("searchCondition : " + searchCondition);
-   System.out.println("searchKeyword : " + searchKeyword);
-%> --%>
-
-
+<!DOCTYPE html>
 <html>
+
 <head>
 <title>상품 목록조회</title>
 
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
+	<link rel="stylesheet" href="/css/admin.css" type="text/css">
+	
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+	
+	$(function(){
+		
+		 $( "td.ct_btn01:contains('검색')" ).on("click" , function() {
+		//Debug..
+		alert(  $( "td.ct_btn01:contains('검색')" ).html() );
+		fncGetProductList(1);
+	});
+	
+	//이렇게 하면 검색 시 엔터 키 먹음
+	 $( "input[name='searchKeyword']" ).keypress(function(event) {
+		    // 엔터 키 코드는 13입니다.
+		    if (event.which === 13) {
+		        // 엔터 키가 눌렸을 때 검색 이벤트 실행
+		    	fncGetProductList(1);
+		    }
+		});
+	});
 
-<script type="text/javascript">
+// 	$(function(){
+//    $(".ct_list_pop td:nth-child(3)").on("click", function(){
+	   
+// 	   /*  var menu = "${not empty param.menu ? param.menu : ''}"; */
+// 	    var url;
+	    
+// 	    if (menu === 'manage') {
+// 	        url = "/product/updateProduct?prodNo=${product.prodNo }&menu=${param.menu}">${product.prodName} + $(this).text().trim();
+// 	    } else if (menu === 'search') {
+// 	        url = "/product/getProduct?prodNo=${product.prodNo }&menu=${param.menu}">${product.prodName} + $(this).text().trim();
+// 	    } else {
+// 	        url = "/product/getProduct?prodNo=${product.prodNo }&menu=${param.menu}">${product.prodName} + $(this).text().trim();
+// 	    }
+
+// 	    self.location = url;
+// 	});
+
+ $(function() {
+       $(".ct_list_pop td:nth-child(3)").on("click", function() {
+           var prodNo = $(".ct_list_pop td:nth-child(3)").find('input[name^="prodNo"]').val();
+           // hidden input을 추가하여 form에 'prodNo' 값을 함께 전송합니다.
+           $(".ct_list_pop td:nth-child(3)").append('<input type="hidden" name^="prodNo" value="' + prodNo + '">');
+           // form을 제출합니다.
+           $(this).closest("form").submit();
+          
+           self.location="/product/getProduct?menu=${param.menu}&prodNo="+prodNo;
+       });
+
+
+		
+		$(".ct_list_pop td:nth-child(3)").css("color", "red"); // 글씨 색상 변경
+		$("h7").css("color", "red");
+		
+		$(".ct_list_pop:nth-child(4n+6)").css("background-color", "whitesmoke");
+		console.log ( $(".ct_list_pop:nth-child(4)" ).html() );
+		});
 
 <!-- 자바 스크립트 부분
 function fncGetProductList(currentPage){
@@ -148,7 +177,11 @@ function fncGetProductList(currentPage){
    <tr>
       <td class="ct_list_b" width="100">No</td>
       <td class="ct_line02"></td>
-      <td class="ct_list_b" width="150">상품명</td>
+    <!--   <td class="ct_list_b" width="150">상품명</td> -->
+    <td class="ct_list_b" width="150">
+    상품명</br>
+    	<h7> (product click:상세정보)</h7>
+    </td>
       <td class="ct_line02"></td>
       <td class="ct_list_b" width="150">가격</td>
       <td class="ct_line02"></td>
@@ -160,11 +193,6 @@ function fncGetProductList(currentPage){
       <td colspan="11" bgcolor="808285" height="1"></td>
    </tr>
       
-  <%--     <%   
-      for(int i=0; i<list.size(); i++) {
-          Product vo = list.get(i);
-   %> --%>
-      
     <c:set var = "i" value = "0" />  
     <c:forEach var = "product" items = "${ list }" >
        <c:set var = "i" value = "${i +1 }" />
@@ -173,49 +201,18 @@ function fncGetProductList(currentPage){
       <td></td>
            <td align="left">
             
-            <c:if test = "${not empty param.menu and param.menu eq 'manage' }">
-           		 <a href="/product/updateProduct?prodNo=${product.prodNo }&menu=${param.menu}">${product.prodName}</a>
-            </c:if>
+            <input type="hidden" name="prodNo${i}" value="${product.prodNo }"/>${product.prodName}
+            
+<%--             <c:if test = "${not empty param.menu and param.menu eq 'manage' }"> --%>
+<%--            		 <a href="/product/updateProduct?prodNo=${product.prodNo }&menu=${param.menu}">${product.prodName}</a> --%>
+<%--             </c:if> --%>
          
-       <c:if test = "${not empty param.menu and param.menu eq 'search' }">
-           		 <a href="/product/getProduct?prodNo=${product.prodNo }&menu=${param.menu}">${product.prodName}</a>
-            </c:if>
-   
-            
-            <%-- <c:if test = "${empty param.menu or param.menu eq 'null' or param.menu eq 'search' }" >
-            	 <a href="/getProduct.do?prodNo=${product.prodNo }">${product.prodName}2</a>
-            </c:if> --%>
-            <%-- <c:if test = "${empty param.menu eq '' or param.menu eq 'search'}">
-            	 <a href="/getProduct.do?prodNo=${product.prodNo }">${product.prodName}3</a>
-            </c:if> --%>
-            
-         <%--  <%    
-          if(request.getParameter("menu") != null && request.getParameter("menu").equals("manage")){   
-       %>
-       <a href="/updateProductView.do?prodNo=<%=vo.getProdNo()%>"><%= vo.getProdName() %></a>
-           <% System.out.println("name : " + vo.getProdName()); %>
-       
-       <% }else if(request.getParameter("menu") == null ||request.getParameter("menu").equals("null") ||  request.getParameter("menu").equals("search")) {
-       %>
-       
-       <a href="/getProduct.do?prodNo=<%=vo.getProdNo()%>"><%= vo.getProdName() %></a>
-       
-       <% System.out.println(request.getParameter("menu") + "skdkld" + vo.getProdName());  %>
-       
-       <% } else if(request.getParameter("menu").equals("") || request.getParameter("menu").equals("search")) {%>
-       <a href="/getProduct.do?prodNo=<%=vo.getProdNo()%>"><%= vo.getProdName() %></a>
-        --%>
-       
-       
-<%-- <% }else{%>
-      <% System.out.println(request.getParameter("menu") + "skdkld" + vo.getProdName());  %>
-      <% } %> --%>
-</td>
-      <td></td>
-       <%-- <td align="left">${product.prodName}</td> --%>
-      <%-- <td align="left"><%=vo.getPrice() %></td> --%>
-      
-      
+<%--        <c:if test = "${not empty param.menu and param.menu eq 'search' }"> --%>
+<%--            		 <a href="/product/getProduct?prodNo=${product.prodNo }&menu=${param.menu}">${product.prodName}</a> --%>
+<%--             </c:if> --%>
+            </td>
+            <td></td>  
+
       <td align="left">${product.price}</td>
       <td></td>
     <%--   <td align="left"><%=vo.getRegDate() %></td> --%>
@@ -236,43 +233,7 @@ function fncGetProductList(currentPage){
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
    <tr>
       <td align="center">
-     
-         
-         <!--  <div style="text-align: center; margin-top: 10px;"> -->
-                
-<%--                 이전 페이지로 이동하는 링크 버튼  &lt 이거는 < 이 부등호 / &gt는 > 이 부등호
-                
-                맨 앞 페이지로 이동
-                <% if(resultPage.getCurrentPage() > 1) { %>
-                   <a href="javascript:fncGetProductList(1)"> &lt;&lt; </a>
-            
-             맨 앞 페이지 없을 때 (고정)
-            <%}else{ %>
-                  <span></span>
-            <% } %>
-            
-             앞 페이지로 이동
-                <% if(resultPage.getCurrentPage() > 1) { %>
-                   <a href="javascript:fncGetProductList(<%= resultPage.getCurrentPage() -1 %>)"> 이전 </a>
-            <% } %>
-            
-                페이지 번호 표시 부분
-                <% for (int i = resultPage.getBeginUnitPage(); i <= resultPage.getEndUnitPage(); i++) { %>
-                    <a href="javascript:fncGetProductList(<%= i %>)"><%= i %></a>
-                <% } %>
 
-             뒤 페이지로 이동
-                <% if(resultPage.getCurrentPage() < resultPage.getMaxPage()) { %>
-                   <a href="javascript:fncGetProductList(<%= resultPage.getCurrentPage() +1 %>)"> 이후 </a>
-            <% } %>
-
-                다음 페이지로 이동하는 링크 버튼
-                 <% if(resultPage.getCurrentPage() < resultPage.getEndUnitPage()) { %>
-                <a href="javascript:fncGetProductList(<%= resultPage.getMaxPage() %>)"> &gt;&gt; </a>
-                
-                <%}else{ %>
-                  <span></span>
-            <% } %>--%>
             </div> 
         </td>
    </tr>

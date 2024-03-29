@@ -108,6 +108,7 @@ public class ProductController {
        
        // 쿠키에 열람 기록을 저장
        Cookie historyCookie = new Cookie("history", history);
+       historyCookie.setPath("/");
        response.addCookie(historyCookie);
 
 	 

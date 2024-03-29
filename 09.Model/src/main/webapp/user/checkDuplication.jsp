@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
+<%@ page pageEncoding="EUC-KR"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -8,18 +9,34 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 
-window.onload = function(){
+/* window.onload = function(){
 	document.getElementById("userId").focus();
 	document.getElementById("userId").onkeydown = function(){
 		if(event.keyCode == '13') {
 			fncCheckDuplication();
 		}
-	}
-}
+	} */
+	
+	$(function(){
+		
+		$("#userId").focus();
+		
+		$("#userId").on("keydown", function(event){
+			
+			/* alert("keyCode : " +event.keyCode); */
+			
+			if(event.keyCode=='13'){
+		
+			}
+	
+		});
 
-function fncCheckDuplication() {
+	});
+
+/* function fncCheckDuplication() {
 	// Form 유효성 검증
 	if(document.detailForm.userId.value != null && document.detailForm.userId.value.length >0) {
 	    document.detailForm.action='/user/checkDuplication';
@@ -29,20 +46,64 @@ function fncCheckDuplication() {
 	}
 	document.getElementById("userId").focus(); 
 }
+*/
 
-function fncUseId() {
+	
+	$(function(){
+		
+		$("td.ct_btn:contains('중복확인')").on("click", function(){
+			
+		if($("#userId").val() != null && $("#userId").val().length>0){
+			$("form").attr("method", "POST");
+			$("form").attr("action", "/user/checkDuplication");
+			$("form").submit();
+		}else{
+			alert('아이디는 반드시 입력하셔야 합니다.');
+		}
+			$("#userId").focus();
+		});
+	
+	});
+	
+	/* function fncUseId() {
 	if(opener) {
 		opener.document.detailForm.userId.value = "${userId}";
 	}
 	window.close();
-}
+}  */
 
+	$(function(){
+		$("td.ct_btn01:contains('사용')").on("click", function(){
+			
+			alert($("td.ct_btn01:contains('사용')").html())
+			
+			if(opener){
+				opener.$("input[name='userId']").val("${userId}");
+				opener.$("input[name='password']").focus();
+			}
+			
+			window.close();
+			
+		});
+	});
+	
+	
+	
+	$(function(){
+		
+		$("td.ct_btn01:contains('닫기')").on("click", function(){
+			
+			window.close();
+		});
+	});
+	
 </script>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="detailForm"  method="post">
+<!-- <form name="detailForm"  method="post"> -->
+<form>
 
 <!-- 타이틀 시작 -->
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
@@ -117,7 +178,8 @@ function fncUseId() {
 									<img src="/images/ct_btng01.gif" width="4" height="21">
 								</td>
 								<td align="center" background="/images/ct_btng02.gif" class="ct_btn" style="padding-top:3px;">
-									<a href="javascript:fncCheckDuplication();">중복확인</a>
+									<!-- <a href="javascript:fncCheckDuplication();">중복확인</a> -->
+									중복확인
 								</td>
 								<td width="4" height="21">
 									<img src="/images/ct_btng03.gif" width="4" height="21"/>
@@ -150,7 +212,8 @@ function fncUseId() {
 							<img src="/images/ct_btnbg01.gif" width="17" height="23"/> 
 						</td>
 						<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-							<a href="javascript:fncUseId();">사용</a>
+							<!-- <a href="javascript:fncUseId();">사용</a> -->
+							사용
 						</td>
 						<td width="14" height="23">
 							<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -161,7 +224,8 @@ function fncUseId() {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:window.close();">닫기</a>
+						<!-- <a href="javascript:window.close();">닫기</a> -->
+						닫기
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
