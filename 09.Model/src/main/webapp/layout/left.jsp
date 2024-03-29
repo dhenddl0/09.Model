@@ -9,9 +9,11 @@
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
     // JavaScript 함수 이름 변경
-    function openHistoryWindow(){
-        var popWin = window.open("/history.jsp", "popWin", "left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
-    }
+   function history(){
+			popWin = window.open("/history.jsp",
+														"popWin",
+														"left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+		}
 
     $(function(){
     	
@@ -58,7 +60,7 @@
         $(".Depth03:contains('최근 본 상품')").on("click", function(){
         	
         	alert($(".Depth03:contains('최근 본 상품')").html());
-        	openHistoryWindow(1);
+        	history();
         	
         });
     });
